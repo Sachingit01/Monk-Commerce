@@ -32,7 +32,7 @@ const DiscountInput = ({
         onChange={handleTypeChange}
         className="discount-type-select"
       >
-        <option value="flat">Flat</option>
+        <option value="flat">Flat Off</option>
         <option value="percentage">% Off</option>
       </select>
       <button onClick={onRemove} className="icon-button">
