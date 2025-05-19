@@ -1,0 +1,260 @@
+[
+  {
+    "id": 77,
+    "title": "Fog Linen Chambray Towel - Beige Stripe",
+    "variants": [
+      {
+        "id": 1,
+        "product_id": 77,
+        "title": "XS / Silver",
+        "price": "49"
+      },
+      {
+        "id": 2,
+        "product_id": 77,
+        "title": "S / Silver",
+        "price": "49"
+      },
+      {
+        "id": 3,
+        "product_id": 77,
+        "title": "M / Silver",
+        "price": "49"
+      }
+    ],
+    "image": {
+      "id": 266,
+      "product_id": 77,
+      "src": "https://cdn11.bigcommerce.com/s-p1xcugzp89/products/77/images/266/foglinenbeigestripetowel1b.1647248662.386.513.jpg?c=1"
+    }
+  },
+  {
+    "id": 80,
+    "title": "Orbit Terrarium - Large",
+    "variants": [
+      {
+        "id": 64,
+        "product_id": 80,
+        "title": "Default Title",
+        "price": "109"
+      }
+    ],
+    "image": {
+      "id": 272,
+      "product_id": 80,
+      "src": "https://cdn11.bigcommerce.com/s-p1xcugzp89/products/80/images/272/roundterrariumlarge.1647248662.386.513.jpg?c=1"
+    }
+  },
+
+  {
+    "id": 203,
+    "title": "Handcrafted Leather Crossbody Bag",
+    "variants": [
+      {
+        "id": 445,
+        "product_id": 203,
+        "title": "Small / Brown",
+        "price": "159.99"
+      },
+      {
+        "id": 446,
+        "product_id": 203,
+        "title": "Medium / Brown",
+        "price": "179.99"
+      },
+      {
+        "id": 447,
+        "product_id": 203,
+        "title": "Small / Black",
+        "price": "159.99"
+      },
+      {
+        "id": 448,
+        "product_id": 203,
+        "title": "Medium / Black",
+        "price": "179.99"
+      },
+      {
+        "id": 449,
+        "product_id": 203,
+        "title": "Medium / Tan",
+        "price": "179.99"
+      }
+    ],
+    "image": {
+      "id": 856,
+      "product_id": 203,
+      "src": "/api/placeholder/400/400"
+    }
+  },
+  {
+    "id": 67,
+    "title": "Cozy Wool Blend Sweater - Winter Collection",
+    "variants": [
+      {
+        "id": 534,
+        "product_id": 67,
+        "title": "S / Cream",
+        "price": "79.99"
+      },
+      {
+        "id": 535,
+        "product_id": 67,
+        "title": "M / Cream",
+        "price": "79.99"
+      },
+      {
+        "id": 536,
+        "product_id": 67,
+        "title": "L / Cream",
+        "price": "84.99"
+      },
+      {
+        "id": 537,
+        "product_id": 67,
+        "title": "S / Navy",
+        "price": "79.99"
+      },
+      {
+        "id": 538,
+        "product_id": 67,
+        "title": "M / Navy",
+        "price": "79.99"
+      },
+      {
+        "id": 539,
+        "product_id": 67,
+        "title": "L / Navy",
+        "price": "84.99"
+      },
+      {
+        "id": 540,
+        "product_id": 67,
+        "title": "XL / Charcoal",
+        "price": "84.99"
+      }
+    ],
+    "image": {
+      "id": 398,
+      "product_id": 67,
+      "src": "/api/placeholder/400/400"
+    }
+  },
+  {
+    "id": 189,
+    "title": "Heavy Duty Canvas Backpack - Adventure Series",
+    "variants": [
+      {
+        "id": 623,
+        "product_id": 189,
+        "title": "Standard / Khaki",
+        "price": "64.99"
+      },
+      {
+        "id": 624,
+        "product_id": 189,
+        "title": "Standard / Navy",
+        "price": "64.99"
+      },
+      {
+        "id": 625,
+        "product_id": 189,
+        "title": "Large / Olive",
+        "price": "74.99"
+      },
+      {
+        "id": 626,
+        "product_id": 189,
+        "title": "Large / Black",
+        "price": "74.99"
+      }
+    ],
+    "image": {
+      "id": 945,
+      "product_id": 189,
+      "src": "/api/placeholder/400/400"
+    }
+  },
+  {
+    "id": 312,
+    "title": "Luxury Silk Scarf - Designer Collection",
+    "variants": [
+      {
+        "id": 789,
+        "product_id": 312,
+        "title": "Standard / Floral Blue",
+        "price": "195.99"
+      },
+      {
+        "id": 790,
+        "product_id": 312,
+        "title": "Standard / Geometric Red",
+        "price": "195.99"
+      },
+      {
+        "id": 791,
+        "product_id": 312,
+        "title": "Large / Abstract Purple",
+        "price": "225.99"
+      }
+    ],
+    "image": {
+      "id": 1234,
+      "product_id": 312,
+      "src": "/api/placeholder/400/400"
+    }
+  },
+  {
+    "id": 445,
+    "title": "Performance Athletic Hoodie - FitPro",
+    "variants": [
+      {
+        "id": 901,
+        "product_id": 445,
+        "title": "S / Heather Gray",
+        "price": "69.99"
+      },
+      {
+        "id": 902,
+        "product_id": 445,
+        "title": "M / Heather Gray",
+        "price": "69.99"
+      },
+      {
+        "id": 903,
+        "product_id": 445,
+        "title": "L / Heather Gray",
+        "price": "74.99"
+      },
+      {
+        "id": 904,
+        "product_id": 445,
+        "title": "S / Black",
+        "price": "69.99"
+      },
+      {
+        "id": 905,
+        "product_id": 445,
+        "title": "M / Black",
+        "price": "69.99"
+      },
+      {
+        "id": 906,
+        "product_id": 445,
+        "title": "L / Black",
+        "price": "74.99"
+      },
+      {
+        "id": 907,
+        "product_id": 445,
+        "title": "XL / Navy",
+        "price": "74.99"
+      }
+    ],
+    "image": {
+      "id": 1567,
+      "product_id": 445,
+      "src": "/api/placeholder/400/400"
+    }
+  }
+]
