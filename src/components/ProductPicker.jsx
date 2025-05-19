@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
-import mockProducts from "../mockProducts.json";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import axios from "axios";
+import { ClipLoader } from "react-spinners";
 
 const ProductPicker = ({ isOpen, onClose, onProductsSelected }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -7,41 +8,52 @@ const ProductPicker = ({ isOpen, onClose, onProductsSelected }) => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const containerRef = useRef(null);
 
-  // Mock API function to fetch products
-const fetchProducts = async (query, pageNum) => {
-  setLoading(true);
+  const containerRef = useRef();
 
-  // Filter products by search query
-  const filtered = mockProducts.filter(({ title }) =>
-    title.toLowerCase().includes(query.toLowerCase())
-  );
+  const fetchProducts = useCallback(async (query, pageNum) => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `https://stageapi.monkcommerce.app/task/products/search?search=Hat&page=2&limit=1`,
+        {
+          params: {
+            search: query,
+            page: pageNum,
+            limit: 10,
+          },
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": "72njgfa948d9aS7gs5",
+          },
+        }
+      );
+      const fetched = response.data || [];
+      const formatted = fetched.map((p) => ({
+        ...p,
+        variants: p.variants.map((v) => ({ ...v, selected: false })),
+      }));
 
-  // Paginate the filtered results
-  const pageSize = 10;
-  const startIndex = (pageNum - 1) * pageSize;
-  const paginated = filtered.slice(startIndex, startIndex + pageSize);
-  const hasMoreResults = startIndex + pageSize < filtered.length;
+      if (pageNum === 1) {
+        setProducts(formatted);
+      } else {
+        setProducts((prev) => [...prev, ...formatted]);
+      }
 
-  setLoading(false);
-  return { products: paginated, hasMore: hasMoreResults };
-};
-
-
-  // Initial fetch
-  useEffect(() => {
-    if (isOpen) {
-      fetchProducts(searchQuery, 1).then(({ products, hasMore }) => {
-        setProducts(products);
-        setHasMore(hasMore);
-        setPage(1);
-      });
-    } else {
-      setProducts([]);
-      setPage(1);
+      setHasMore(fetched.length === 10);
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+      console.log("error", err);
     }
-  }, [isOpen, searchQuery]);
+  }, []);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    setPage(1);
+    fetchProducts(searchQuery, 1);
+  }, [isOpen, searchQuery, fetchProducts]);
 
   // Handle scroll to load more
   useEffect(() => {
@@ -50,101 +62,65 @@ const fetchProducts = async (query, pageNum) => {
 
     const handleScroll = () => {
       if (loading || !hasMore) return;
-
       const { scrollTop, scrollHeight, clientHeight } = container;
-
       if (scrollHeight - scrollTop <= clientHeight + 100) {
         const nextPage = page + 1;
         setPage(nextPage);
-        fetchProducts(searchQuery, nextPage).then(
-          ({ products: newProducts, hasMore: moreResults }) => {
-            setProducts((prev) => [...prev, ...newProducts]);
-            setHasMore(moreResults);
-          }
-        );
+        fetchProducts(searchQuery, nextPage);
       }
     };
 
     container.addEventListener("scroll", handleScroll);
     return () => container.removeEventListener("scroll", handleScroll);
-  }, [loading, hasMore, page, searchQuery]);
+  }, [loading, hasMore, page, searchQuery, fetchProducts]);
 
-  // Handle search input
-  const handleSearch = (e) => {
-    setSearchQuery(e.target.value);
-  };
+  const handleSearch = (e) => setSearchQuery(e.target.value);
 
-  // Toggle product selection
   const toggleProductSelection = (productId, selected) => {
-    setProducts(
-      products.map((product) => {
-        if (product.id === productId) {
-          // Update all variants
-          const updatedVariants = product.variants.map((variant) => ({
-            ...variant,
-            selected,
-          }));
-
-          return {
-            ...product,
-            variants: updatedVariants,
-          };
-        }
-        return product;
-      })
-    );
-  };
-
-  // Toggle variant selection
-  const toggleVariantSelection = (productId, variantId, selected) => {
-    setProducts(
-      products.map((product) => {
-        if (product.id === productId) {
-          const updatedVariants = product.variants.map((variant) => {
-            if (variant.id === variantId) {
-              return {
-                ...variant,
+    setProducts((prev) =>
+      prev.map((product) =>
+        product.id === productId
+          ? {
+              ...product,
+              variants: product.variants.map((v) => ({
+                ...v,
                 selected,
-              };
+              })),
             }
-            return variant;
-          });
-
-          return {
-            ...product,
-            variants: updatedVariants,
-          };
-        }
-        return product;
-      })
+          : product
+      )
     );
   };
 
-  // Handle confirm selection
-  const handleConfirm = () => {
-    const selectedProducts = [];
-
-    products.forEach((product) => {
-      const selectedVariants = product.variants.filter(
-        (variant) => variant.selected
-      );
-
-      if (selectedVariants.length > 0) {
-        selectedProducts.push({
-          ...product,
-          variants: selectedVariants,
-        });
-      }
-    });
-
-    onProductsSelected(selectedProducts);
+  const toggleVariantSelection = (productId, variantId, selected) => {
+    setProducts((prev) =>
+      prev.map((product) =>
+        product.id === productId
+          ? {
+              ...product,
+              variants: product.variants.map((v) =>
+                v.id === variantId ? { ...v, selected } : v
+              ),
+            }
+          : product
+      )
+    );
   };
 
-  // Count selected products
-  const selectedCount = products.reduce((count, product) => {
-    const variantCount = product.variants.filter((v) => v.selected).length;
-    return count + (variantCount > 0 ? 1 : 0);
-  }, 0);
+  const handleConfirm = () => {
+    const selected = products
+      .map((p) => ({
+        ...p,
+        variants: p.variants.filter((v) => v.selected),
+      }))
+      .filter((p) => p.variants.length > 0);
+    onProductsSelected(selected);
+  };
+
+  const selectedCount = products.reduce(
+    (count, p) => count + (p.variants.some((v) => v.selected) ? 1 : 0),
+    0
+  );
 
   if (!isOpen) return null;
 
@@ -154,6 +130,7 @@ const fetchProducts = async (query, pageNum) => {
         <div className="dialog-header">
           <h2 className="dialog-title">Select Products</h2>
         </div>
+
         <div>
           <input
             placeholder="Search product"
@@ -177,7 +154,7 @@ const fetchProducts = async (query, pageNum) => {
                   className="checkbox"
                 />
                 <div className="picker-product-info">
-                  {product.image && (
+                  {product.image?.src && (
                     <img
                       src={product.image.src}
                       alt={product.title}
@@ -222,7 +199,7 @@ const fetchProducts = async (query, pageNum) => {
                         {variant.available && `${variant.available} available`}
                       </span>
                       <span className="picker-variant-price">
-                        ${variant?.price}
+                        ₹{variant.price}
                       </span>
                     </div>
                   </div>
@@ -231,7 +208,11 @@ const fetchProducts = async (query, pageNum) => {
             </div>
           ))}
 
-          {loading && <div className="loading-message">Loading...</div>}
+          {loading && (
+            <div className="loading-message">
+              <ClipLoader color="#28a745" size={35} />
+            </div>
+          )}
 
           {!loading && products.length === 0 && (
             <div className="empty-message">No products found</div>
