@@ -10,18 +10,24 @@ const ProductPicker = ({ isOpen, onClose, onProductsSelected }) => {
   const containerRef = useRef(null);
 
   // Mock API function to fetch products
-  const fetchProducts = async (query, pageNum) => {
-    setLoading(true);
+const fetchProducts = async (query, pageNum) => {
+  setLoading(true);
 
-    // Simulating API delay
-    await new Promise((resolve) => setTimeout(resolve, 500));
+  // Filter products by search query
+  const filtered = mockProducts.filter(({ title }) =>
+    title.toLowerCase().includes(query.toLowerCase())
+  );
 
-    // Simulating end of results after page 3
-    const hasMoreResults = pageNum < 3;
+  // Paginate the filtered results
+  const pageSize = 10;
+  const startIndex = (pageNum - 1) * pageSize;
+  const paginated = filtered.slice(startIndex, startIndex + pageSize);
+  const hasMoreResults = startIndex + pageSize < filtered.length;
 
-    setLoading(false);
-    return { products: mockProducts, hasMore: hasMoreResults };
-  };
+  setLoading(false);
+  return { products: paginated, hasMore: hasMoreResults };
+};
+
 
   // Initial fetch
   useEffect(() => {
